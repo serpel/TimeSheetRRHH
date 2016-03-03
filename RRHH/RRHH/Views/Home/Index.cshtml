@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <link href="~/Content/jquery.bootgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bootgrid.min.css" rel="stylesheet" />
+</head>
+
+<table id="grid" data-source="@Url.Action("GetEmployees")"></table>
+<script>
+    grid = $("#grid").grid({
+        dataKey: "Id",
+        uiLibrary: "bootstrap",
+        columns: [
+          { field: "ID", width: 50, sortable: true },
+          { field: "FirstName", sortable: true },
+          { field: "LastName", sortable: true },
+          { field: "Department", title: "Department", sortable: true },
+          { field: "ShiftId", title: "Shift", sortable: true },
+          {
+              field: "Edit", title: "", width: 34, type: "icon",
+              icon: "glyphicon-pencil", tooltip: "Edit", events: { "click": null }
+          },
+          {
+              field: "Delete", title: "", width: 34, type: "icon",
+              icon: "glyphicon-remove", tooltip: "Delete", events: { "click": null }
+          }
+        ],
+        pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+    });
+</script>

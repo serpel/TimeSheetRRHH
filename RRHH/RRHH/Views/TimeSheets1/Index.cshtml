@@ -1,0 +1,81 @@
+﻿@model IEnumerable<RRHH.Models.TimeSheet>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.In)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Out)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsManualIn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsManualOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsertedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.EmployeeCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.In)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Out)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsManualIn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsManualOut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsertedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TimeSheetId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TimeSheetId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TimeSheetId })
+        </td>
+    </tr>
+}
+
+</table>
