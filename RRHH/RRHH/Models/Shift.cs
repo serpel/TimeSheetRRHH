@@ -25,6 +25,6 @@ namespace RRHH.Models
 
         public virtual Company Company { get; set; }
         public virtual ICollection<ShiftTime> ShiftTimes { get; set; }
-        public virtual ICollection<ShiftSchedule> ShiftSchedule { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RRHH.Models;
+using RRHH.DAL;
 
 namespace RRHH.Controllers
 {
@@ -113,6 +114,20 @@ namespace RRHH.Controllers
             db.Countries.Remove(country);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private CountryRepository cRepository = new CountryRepository();
+        public JsonResult GetCountries()
+        {
+            var countries = cRepository.GetCountryList()
+                .Select(c => new
+                {
+                    c.CountryId,
+                    c.Name,
+                    c.IsActive
+                });
+
+            return Json(countries, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RRHH.Models;
+using System.Data.Entity;
 
 namespace RRHH.DAL
 {
@@ -43,7 +44,7 @@ namespace RRHH.DAL
 
         public void Update(Employee employee)
         {
-            throw new NotImplementedException();
+            context.Entry(employee).State = EntityState.Modified;
         }
 
         #region IDisposable Support

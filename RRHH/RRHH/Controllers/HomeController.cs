@@ -16,39 +16,69 @@ namespace RRHH.Controllers
     {
         private TimeSheetContext db = new TimeSheetContext();
 
-        //public JsonResult GetEmployees()
-        //{
-        //    var employees = from e in db.Employees.ToList()
-        //                    select new { Id = e.EmployeeId, e.EmployeeCode, Department = e.DepartmentId, FirstName = e.FirstName, LastName = e.LastName, ShiftId = e.ShiftId };
-
-        //    return Json(employees, JsonRequestBehavior.AllowGet);
-        //}
-
-        [HttpGet]
-        public JsonResult GetEmployees(int? page, int? limit,
-            string sortBy, string direction, string searchString = null)
+        public ActionResult Index(string department, string date)
         {
-            int total;
-            var records = from e in db.Employees.ToList()
-                            select new { Id = e.EmployeeId, e.EmployeeCode, Department = e.DepartmentId, FirstName = e.FirstName, LastName = e.LastName, ShiftId = e.ShiftId };
+            //DailyProcess d = new DailyProcess(db);
+            //d.GenerateEmployeeTimeSheetByDate(new DateTime(2016, 02, 23));
 
-            total = records.Count();
-            return Json(new { records, total }, JsonRequestBehavior.AllowGet);
+            ViewBag.department = new SelectList(db.Departments, "DepartmentId", "Name");
+
+            var records = db.TimeSheets.Include(e => e.Employee).Include(s => s.ShiftTime);
+            var mydate = DateTime.Now;
+            int departmentId = 0;
+
+            if (String.IsNullOrEmpty(department))
+            {
+                departmentId = db.Departments.FirstOrDefault().DepartmentId;
+            }
+            else
+            {
+                departmentId = Int32.Parse(department);
+            }
+
+            if(!String.IsNullOrEmpty(date))
+            {
+                mydate = DateTime.Parse(date);
+            }
+
+            //get a specific department 
+            records = from r in records
+                      where r.Employee.DepartmentId == departmentId &&
+                            r.Date.Year == mydate.Year &&
+                            r.Date.Month == mydate.Month &&
+                            r.Date.Day == mydate.Day
+                      select r;
+
+            TimeSheetViewModel timesheet = new TimeSheetViewModel()
+            {
+                TimeSheetList = records.ToList()
+            };
+
+            return View(timesheet);
         }
 
-        public ActionResult Index()
+        [HttpPost]
+        public JsonResult Save(TimeSheetViewModel obj)
         {
+            bool success = false;
+            string message = "";
 
-            DateTime date = new DateTime(2016, 02, 23);
-            DailyProcess process = new DailyProcess();
-            process.GenerateEmployeeTimeSheetByDate(date);
+            if (ModelState.IsValid)
+            {
+                success = true;
+                //db.Entry(obj.TimeSheetList).State = EntityState.Modified;
 
-            //timesheetRepository.InsertRange(timesheets);
-            //timesheetRepository.Save();
+                foreach(var timesheet in obj.TimeSheetList)
+                {
+                    TimeSheet t = db.TimeSheets.Find(timesheet.TimeSheetId);
+                    t.In = timesheet.In;
+                    t.Out = timesheet.Out;
+                    db.Entry(t).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+            }        
 
-            int a = 1;
-
-            return View();
+            return Json( new { success = success, message = message });
         }
 
         public ActionResult About()

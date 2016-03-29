@@ -14,6 +14,6 @@ namespace RRHH.Models
         public bool IsActive { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }
-        public virtual ICollection<Employee> Employess { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

@@ -1,0 +1,194 @@
+﻿@model IEnumerable<RRHH.Models.Employee>
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data =
+                {
+                    dataType: "json",
+                    dataFields: [
+                        { name: 'EmployeeId', type: 'number' },
+                        { name: 'EmployeeCode', type: 'string' },
+                        { name: 'NationalCardId', type: 'string' },
+                        { name: 'FirstName', type: 'string' },
+                        { name: 'LastName', type: 'string' },
+                        { name: 'Gender', type: 'number' },
+                        { name: 'Birthdate', type: 'date' },
+                        { name: 'PhoneNumber', type: 'string' },
+                        { name: 'Country', type: 'number' },
+                        { name: 'City', type: 'number', map: 'City>Name' },
+                        { name: 'Address', type: 'string' },
+                        { name: 'JobId', type: 'number' },
+                        { name: 'HireDate', type: 'date' },
+                        { name: 'Department', type: 'number' },
+                        { name: 'Shift', type: 'number' },
+                        { name: 'ProfileUrl', type: 'string' },
+                        { name: 'IsActive', type: 'bool' }
+                    ],
+                    id: 'EmployeeId',
+                    url: '/Employees/GetEmployees',
+                    addrow: function (rowid, rowdata, position, commit) {
+
+                        //syncronize with the server
+                        $.ajax({
+                            cache: false,
+                            dataType: 'json',
+                            url: '/Employees/Add',
+                            data: rowdata,
+                            type: "POST",
+                            success: function (data, status, xhr) {
+                                commit(true);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert(errorThrown);
+                                commit(false);
+                            }
+                        });
+                    },
+                    deleterow: function (rowid, commit) {
+
+                        //syncronize with the server
+                        $.ajax({
+                            dataType: "json",
+                            cache: false,
+                            url: '/Employees/Delete/5',
+                            success: function (data, status, xhr) {
+                                commit(true);
+                            },
+                            error: function (jqXHR, textStatus, errorThrow) {
+                                alert(errorThrow);
+                                commit(false);
+                            }
+                        });
+                    },
+                    updaterow: function (rowid, rowdata, commit) {
+                        rowdata.EmployeeId = rowid;
+                        //TODO: fix date format before update or add
+                        rowdata.HireDate = '2015/02/02';
+                        rowdata.Birthdate = '2015/02/01';
+
+                        $.ajax({
+                            dataType: "json",
+                            cache: false,
+                            url: '/Employees/Update',
+                            data: rowdata,
+                            type: "POST",
+                            success: function (data, status, xhr) {
+                                commit(true);
+                            },
+                            error(jqXHR, textStatus, errorThrown) {
+                                alert(errorThrown);
+                                commit(false);
+                            }
+                        });
+                    }
+                };
+
+            var dataAdapter = new $.jqx.dataAdapter(data);
+
+           /*
+            var comboBoxData =
+            {
+                dataType: "json",
+                datafields: [
+                    { name: 'CountryId', type: 'number' },
+                    { name: 'Name', type: 'string' },
+                    { name: 'IsActive', type: 'bool' }
+                ],
+                id: 'CountryId',
+                url: '/Employees/GetEmployees'
+            };
+
+            var comboDataAdapter = new $.jqx.dataAdapter(comboBoxData);*/
+
+            $("#dataTable").jqxDataTable(
+            {
+                width: 900,
+                source: dataAdapter,
+                theme: 'metro',
+                /*selectionmode: 'singlecell',*/
+                editable: true,
+                pageSize: 15,
+                sortable: true,
+                filterable: true,
+                pageable: true,
+                columns: [
+                    { text: 'FirstName', dataField: 'FirstName', width: 150 },
+                    { text: 'LastName', dataField: 'LastName', width: 150 },
+                    { text: 'Birth Date', dataField: 'BirthDate', width: 100, cellsformat: 'yyyy/M/d' },
+                    { text: 'Hire Date', dataField: 'HireDate', width: 100, cellsformat: 'yyyy/M/d' },
+                    { text: 'Address', dataField: 'Address', width: 200 },
+                    {
+                        text: 'Country', dataField: 'CountryId', columntype: 'combobox', width: 100,
+                        createeditor: function(row, column, editor ){
+                            var list = ['Honduras', 'Guatemala', 'CostaRica'];
+                            editor.jqxComboBox({
+                                autoDropDownHeight: true,
+                                source: list, promptText: "Please Choose"
+                            });
+                        },
+                        initeditor: function (row, cellvalue, editor, celltext, cellwidth, cellheight) {
+                            //var countryId = $("#dataTable").jqxDataTable('getcellvalue', row, "CountryId");
+                            editor.jqxComboBox({ selectdIndex: 1 });
+                        },
+                        cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
+                            if (newvalue == "") return oldvalue;
+                        }
+                    },
+                    { text: 'City', dataField: 'CityId', width: 100 },
+                    { text: 'DepartmentId', dataField: 'DepartmentId', width: 100 },
+                    { text: 'IsActive', datafield: 'IsActive', width: 50 }
+                ]
+            });
+
+            $("#addrowbutton").jqxButton();
+            $("#addrowbutton").bind('click', function () {
+                var rowscount = $("#dataTable").jqxDataTable('getdatainformation').rowscount;
+                var datarow = generaterow(rowscount + 1);
+                $("#dataTable").jqxDataTable('addrow', null, datarow);
+            });            
+        });
+
+        function CreateEmployee() {
+            var div = $("#OpenDilog");
+            div.load("/Employees/Create", function () {
+                div.dialog({
+                    modal: true,
+                    width: 500,
+                    height: 400,
+                    title: "Add New Employee",
+                    resizable: false
+                });
+            });
+        };
+
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="grid simple ">
+            <div class="grid-title no-border">
+                <h4>Employee Information List</h4>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#grid-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="grid-body no-border">
+                <input type="button" value="Add New Employee" onclick="CreateEmployee();" />                
+                <div id='OpenDilog'></div> 
+                <div>
+                    <input id="addrowbutton" type="button" value="Add New Row" />
+                </div>
+                <div id="dataTable"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -9,6 +9,7 @@ namespace RRHH.Models
         public Int32 TimeSheetId { get; set; }
         [Required]
         public Int32 EmployeeId { get; set; }
+        public Int32? ShiftTimeId { get; set; }
         public DateTime Date { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime? In { get; set; }
@@ -25,5 +26,6 @@ namespace RRHH.Models
         public bool IsActive { get; set; }
 
         public virtual Employee Employee { get; set; }
+        public virtual ShiftTime ShiftTime { get; set; }
     }
 }

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<RRHH.Models.Shift>
+
+<div class="col-md-3 tiles red no-padding">
+    <div class="tiles-body">
+        <div class="calender-options-wrapper">
+            <h3 class="text-white semi-bold" id="calender-current-day"></h3>
+            <h2 class="text-white" id="calender-current-date"></h2>
+            <div class="pull-right">
+                <div class="btn-group ">
+                    <button class="btn btn-white" id="save"><i class="fa fa-floppy-o"></i></button>
+                    <button class="btn btn-white" id="clear"><i class="fa fa-rotate-right"></i></button>
+                </div>
+            </div>
+            <div id='external-events' class="hide-inphone events-wrapper">
+                <div class="events-heading">Shifts</div>
+                @foreach (var item in Model)
+                {
+                    <div class='external-event' id="@item.ShiftId">@item.Name</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,15 +3,15 @@
     <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
         <!-- BEGIN MINI-PROFILE -->
         <div class="user-info-wrapper">
-           <!--
-            <div class="profile-wrapper">
-                <img src='@Url.Content("~/Content/assets/img/profiles/avatar.jpg")' alt="" data-src='@Url.Content("~/Content/assets/img/profiles/avatar.jpg")' data-src-retina='@Url.Content("~/Content/assets/img/profiles/avatar2x.jpg")' width="69" height="69" />
-            </div>
-           <div class="user-info">
-                <div class="greeting">Welcome</div>
-                <div class="username">John <span class="semi-bold">Smith</span></div>
-                <div class="status">Status<a href="#"><div class="status-icon green"></div>Online</a></div>
-            </div>-->
+            <!--
+             <div class="profile-wrapper">
+                 <img src='@Url.Content("~/Content/assets/img/profiles/avatar.jpg")' alt="" data-src='@Url.Content("~/Content/assets/img/profiles/avatar.jpg")' data-src-retina='@Url.Content("~/Content/assets/img/profiles/avatar2x.jpg")' width="69" height="69" />
+             </div>
+            <div class="user-info">
+                 <div class="greeting">Welcome</div>
+                 <div class="username">John <span class="semi-bold">Smith</span></div>
+                 <div class="status">Status<a href="#"><div class="status-icon green"></div>Online</a></div>
+             </div>-->
         </div>
         <!-- END MINI-PROFILE -->
         <!-- BEGIN SIDEBAR MENU -->
@@ -28,17 +28,32 @@
             </li>
             <li class="">
                 <a href="@Url.Action("Index","Employees")">
-                    <i class="fa fa-th"></i>
+                    <i class="fa fa-user"></i>
                     <span class="title">Employees</span>
                     <span class="selected"></span>
                 </a>
             </li>
             <li class="">
                 <a href="@Url.Action("Index","Schedules")">
-                    <i class="fa fa-th"></i>
+                    <i class="fa fa-calendar"></i>
                     <span class="title">Work Schedules</span>
                     <span class="selected"></span>
                 </a>
+            </li>
+            <li class="">
+                <a href="javascript:;"> <i class="icon-custom-thumb"></i> <span class="title">Settings</span> <span class="arrow "></span> </a>
+                <ul class="sub-menu">
+                    <li> <a href="@Url.Action("Index", "Shifts")"> Shifts </a> </li>
+                    <li> <a href="@Url.Action("Index", "Countries")"> Countries </a> </li>
+                    <li> <a href="@Url.Action("Index", "Cities")"> Cities </a> </li>
+                    <li> <a href="@Url.Action("Index", "Companies")"> Companies</a> </li>
+                    <li> <a href="@Url.Action("Index", "Jobs")"> Positions</a> </li>
+                    <li> <a href="@Url.Action("Index", "Users")"> Users </a> </li>
+                    <li> <a href="@Url.Action("Index", "Devices")"> Devices</a> </li>
+                    @*<li> <a href="@Url.Action("Index", "DeviceTypes")"> Device Types</a> </li>*@
+                    <li> <a href="@Url.Action("Index", "Process")"> Process</a> </li>
+                    <li> <a href="@Url.Action("Index", "Role")"> Role</a> </li>
+                </ul>
             </li>
             <!-- END SELECTED LINK -->
             <!-- END TWO LEVEL MENU -->

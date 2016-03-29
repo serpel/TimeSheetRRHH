@@ -13,9 +13,9 @@ namespace RRHH.Models
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobPosition> Jobs { get; set; }
         public DbSet<Shift> Shifts { get; set; }
-        public DbSet<ShiftSchedule> ShiftSchedules { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         public DbSet<ShiftTime> ShiftTime { get; set; }
         public DbSet<TimeSheet> TimeSheets { get; set; }
         public DbSet<AttendanceRecord> AttendanceRecords { get; set; }

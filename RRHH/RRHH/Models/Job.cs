@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RRHH.Models
 {
-    public class Job
+    public class JobPosition
     {
         [Key]
-        public Int32 JobId { get; set; }
+        public Int32 JobPositionId { get; set; }
         [StringLength(100)]
         public string JobTitle { get; set; }
         public bool IsActive { get; set; }

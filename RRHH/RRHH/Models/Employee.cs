@@ -28,7 +28,7 @@ namespace RRHH.Models
         [StringLength(150)]
         public string Address { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime? Bithdate { get; set; }
+        public DateTime? Birthdate { get; set; }
         public Gender Gender { get; set; }
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
@@ -39,7 +39,7 @@ namespace RRHH.Models
         [Required]
         public Int32 DepartmentId { get; set; }
         public Int32 ShiftId { get; set; }
-        public Int32? JobId { get; set; }
+        public Int32? JobPositionId { get; set; }
         public Int32? CountryId { get; set; }
         public Int32? CityId { get; set; }
         public bool IsActive { get; set; }
@@ -52,10 +52,10 @@ namespace RRHH.Models
         public virtual Department Department { get; set; }
         public virtual City City { get; set; }
         public virtual Country Country { get; set; }
-        public virtual Job Job { get; set; }
+        public virtual JobPosition JobPosition { get; set; }
         public virtual Shift Shift { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
         public virtual ICollection<AttendanceRecord> AttendanceRecords { get; set; }
         public virtual ICollection<TimeSheet> Timesheets { get; set; }
-        public virtual ICollection<ShiftSchedule> ShiftSchedules { get; set; }
     }
 }

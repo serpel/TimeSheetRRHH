@@ -10,7 +10,7 @@ using RRHH.Models;
 
 namespace RRHH.Controllers
 {
-    public class TimeSheetsController : Controller
+    public class TimeSheetsController : BaseController
     {
         private TimeSheetContext db = new TimeSheetContext();
 

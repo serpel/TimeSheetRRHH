@@ -53,6 +53,7 @@ namespace RRHH.Controllers
         {
             if (ModelState.IsValid)
             {
+                attendanceRecord.InsertedAt = DateTime.Now;
                 db.AttendanceRecords.Add(attendanceRecord);
                 db.SaveChanges();
                 return RedirectToAction("Index");

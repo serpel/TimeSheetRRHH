@@ -62,14 +62,14 @@ namespace RRHH.Migrations
                         FirstName = c.String(nullable: false, maxLength: 100),
                         LastName = c.String(nullable: false, maxLength: 100),
                         Address = c.String(maxLength: 150),
-                        Bithdate = c.DateTime(),
+                        Birthdate = c.DateTime(),
                         Gender = c.Int(nullable: false),
                         PhoneNumber = c.String(),
                         ProfileUrl = c.String(),
                         HireDate = c.DateTime(),
                         DepartmentId = c.Int(nullable: false),
                         ShiftId = c.Int(nullable: false),
-                        JobId = c.Int(),
+                        JobPositionId = c.Int(),
                         CountryId = c.Int(),
                         CityId = c.Int(),
                         IsActive = c.Boolean(nullable: false),
@@ -78,11 +78,11 @@ namespace RRHH.Migrations
                 .ForeignKey("dbo.Countries", t => t.CountryId)
                 .ForeignKey("dbo.Cities", t => t.CityId)
                 .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: true)
-                .ForeignKey("dbo.Jobs", t => t.JobId)
+                .ForeignKey("dbo.JobPositions", t => t.JobPositionId)
                 .ForeignKey("dbo.Shifts", t => t.ShiftId, cascadeDelete: true)
                 .Index(t => t.DepartmentId)
                 .Index(t => t.ShiftId)
-                .Index(t => t.JobId)
+                .Index(t => t.JobPositionId)
                 .Index(t => t.CountryId)
                 .Index(t => t.CityId);
             
@@ -158,19 +158,18 @@ namespace RRHH.Migrations
                 .Index(t => t.CompanyId);
             
             CreateTable(
-                "dbo.ShiftSchedules",
+                "dbo.Schedules",
                 c => new
                     {
-                        ShiftScheduleId = c.Int(nullable: false, identity: true),
+                        ScheduleId = c.Int(nullable: false, identity: true),
                         ShiftId = c.Int(),
                         EmployeeId = c.Int(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
                         InsertedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
-                        IsActive = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.ShiftScheduleId)
+                .PrimaryKey(t => t.ScheduleId)
                 .ForeignKey("dbo.Employees", t => t.EmployeeId)
                 .ForeignKey("dbo.Shifts", t => t.ShiftId)
                 .Index(t => t.ShiftId)
@@ -198,14 +197,14 @@ namespace RRHH.Migrations
                 .Index(t => t.ShiftId);
             
             CreateTable(
-                "dbo.Jobs",
+                "dbo.JobPositions",
                 c => new
                     {
-                        JobId = c.Int(nullable: false, identity: true),
+                        JobPositionId = c.Int(nullable: false, identity: true),
                         JobTitle = c.String(maxLength: 100),
                         IsActive = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.JobId);
+                .PrimaryKey(t => t.JobPositionId);
             
             CreateTable(
                 "dbo.TimeSheets",
@@ -213,6 +212,7 @@ namespace RRHH.Migrations
                     {
                         TimeSheetId = c.Int(nullable: false, identity: true),
                         EmployeeId = c.Int(nullable: false),
+                        ShiftTimeId = c.Int(),
                         Date = c.DateTime(nullable: false),
                         In = c.DateTime(),
                         Out = c.DateTime(),
@@ -224,19 +224,22 @@ namespace RRHH.Migrations
                     })
                 .PrimaryKey(t => t.TimeSheetId)
                 .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: true)
-                .Index(t => t.EmployeeId);
+                .ForeignKey("dbo.ShiftTimes", t => t.ShiftTimeId)
+                .Index(t => t.EmployeeId)
+                .Index(t => t.ShiftTimeId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.TimeSheets", "ShiftTimeId", "dbo.ShiftTimes");
             DropForeignKey("dbo.TimeSheets", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.Employees", "ShiftId", "dbo.Shifts");
-            DropForeignKey("dbo.Employees", "JobId", "dbo.Jobs");
+            DropForeignKey("dbo.Employees", "JobPositionId", "dbo.JobPositions");
             DropForeignKey("dbo.Employees", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.ShiftTimes", "ShiftId", "dbo.Shifts");
-            DropForeignKey("dbo.ShiftSchedules", "ShiftId", "dbo.Shifts");
-            DropForeignKey("dbo.ShiftSchedules", "EmployeeId", "dbo.Employees");
+            DropForeignKey("dbo.Schedules", "ShiftId", "dbo.Shifts");
+            DropForeignKey("dbo.Schedules", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.Shifts", "CompanyId", "dbo.Companies");
             DropForeignKey("dbo.Departments", "CompanyId", "dbo.Companies");
             DropForeignKey("dbo.Companies", "CountryId", "dbo.Countries");
@@ -247,10 +250,11 @@ namespace RRHH.Migrations
             DropForeignKey("dbo.AttendanceRecords", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.Devices", "DeviceTypeId", "dbo.DeviceTypes");
             DropForeignKey("dbo.AttendanceRecords", "DeviceId", "dbo.Devices");
+            DropIndex("dbo.TimeSheets", new[] { "ShiftTimeId" });
             DropIndex("dbo.TimeSheets", new[] { "EmployeeId" });
             DropIndex("dbo.ShiftTimes", new[] { "ShiftId" });
-            DropIndex("dbo.ShiftSchedules", new[] { "EmployeeId" });
-            DropIndex("dbo.ShiftSchedules", new[] { "ShiftId" });
+            DropIndex("dbo.Schedules", new[] { "EmployeeId" });
+            DropIndex("dbo.Schedules", new[] { "ShiftId" });
             DropIndex("dbo.Shifts", new[] { "CompanyId" });
             DropIndex("dbo.Companies", new[] { "CityId" });
             DropIndex("dbo.Companies", new[] { "CountryId" });
@@ -258,16 +262,16 @@ namespace RRHH.Migrations
             DropIndex("dbo.Cities", new[] { "CountryId" });
             DropIndex("dbo.Employees", new[] { "CityId" });
             DropIndex("dbo.Employees", new[] { "CountryId" });
-            DropIndex("dbo.Employees", new[] { "JobId" });
+            DropIndex("dbo.Employees", new[] { "JobPositionId" });
             DropIndex("dbo.Employees", new[] { "ShiftId" });
             DropIndex("dbo.Employees", new[] { "DepartmentId" });
             DropIndex("dbo.Devices", new[] { "DeviceTypeId" });
             DropIndex("dbo.AttendanceRecords", new[] { "EmployeeId" });
             DropIndex("dbo.AttendanceRecords", new[] { "DeviceId" });
             DropTable("dbo.TimeSheets");
-            DropTable("dbo.Jobs");
+            DropTable("dbo.JobPositions");
             DropTable("dbo.ShiftTimes");
-            DropTable("dbo.ShiftSchedules");
+            DropTable("dbo.Schedules");
             DropTable("dbo.Shifts");
             DropTable("dbo.Companies");
             DropTable("dbo.Departments");

@@ -15,13 +15,13 @@ namespace RRHH.Migrations
         {
             Console.WriteLine("Insert Jobs");
 
-            context.Jobs.AddOrUpdate(x => x.JobId,
-                 new Job() { JobId = 1, JobTitle = "Consultor Desarrollo", IsActive = true },
-                 new Job() { JobId = 2, JobTitle = "Tecnico", IsActive = true },
-                 new Job() { JobId = 3, JobTitle = "Coodinador IT", IsActive = true },
-                 new Job() { JobId = 4, JobTitle = "Consultor SAP", IsActive = true },
-                 new Job() { JobId = 5, JobTitle = "Aseador", IsActive = true },
-                 new Job() { JobId = 6, JobTitle = "Otros", IsActive = true }
+            context.Jobs.AddOrUpdate(x => x.JobPositionId,
+                 new JobPosition() { JobPositionId = 1, JobTitle = "Consultor Desarrollo", IsActive = true },
+                 new JobPosition() { JobPositionId = 2, JobTitle = "Tecnico", IsActive = true },
+                 new JobPosition() { JobPositionId = 3, JobTitle = "Coodinador IT", IsActive = true },
+                 new JobPosition() { JobPositionId = 4, JobTitle = "Consultor SAP", IsActive = true },
+                 new JobPosition() { JobPositionId = 5, JobTitle = "Aseador", IsActive = true },
+                 new JobPosition() { JobPositionId = 6, JobTitle = "Otros", IsActive = true }
              );
 
             context.Countries.AddOrUpdate(x => x.CountryId,
@@ -64,15 +64,15 @@ namespace RRHH.Migrations
                 new ShiftTime() { ShiftTimeId = 3, ShiftId = 1, DayNumber = 3, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("17:00"), IsLaborDay = true, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = true, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true },
                 new ShiftTime() { ShiftTimeId = 4, ShiftId = 1, DayNumber = 4, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("17:00"), IsLaborDay = true, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = true, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true },
                 new ShiftTime() { ShiftTimeId = 5, ShiftId = 1, DayNumber = 5, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("17:00"), IsLaborDay = true, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = true, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true },
-                new ShiftTime() { ShiftTimeId = 6, ShiftId = 1, DayNumber = 6, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("12:00"), IsLaborDay = true, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = false, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true }
+                new ShiftTime() { ShiftTimeId = 6, ShiftId = 1, DayNumber = 6, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("12:00"), IsLaborDay = false, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = false, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true },
+                new ShiftTime() { ShiftTimeId = 7, ShiftId = 1, DayNumber = 7, StartTime = TimeSpan.Parse("8:00"), EndTime = TimeSpan.Parse("12:00"), IsLaborDay = false, LunchStartTime = TimeSpan.Parse("12:00"), LunchEndTime = TimeSpan.Parse("13:00"), HasLunchTime = false, InsertedAt = DateTime.Now, UpdatedAt = DateTime.Now, IsActive = true }
                 );
 
             context.Employees.AddOrUpdate(x => x.EmployeeId,
-                new Employee() { EmployeeId = 1, EmployeeCode = "17", FirstName = "Sergio", LastName = "Peralta", Gender = Gender.M, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobId = 1, IsActive = true, ShiftId = 1 },
-                new Employee() { EmployeeId = 2, EmployeeCode = "1320", FirstName = "Jairo", LastName = "Espinza", Gender = Gender.M, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobId = 1, IsActive = true, ShiftId = 1 },
-                new Employee() { EmployeeId = 3, EmployeeCode = "1321", FirstName = "Teresa", LastName = "Espinal", Gender = Gender.F, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobId = 1, IsActive = true, ShiftId = 1 },
-                 new Employee() { EmployeeId = 4, EmployeeCode = "1322", FirstName = "Alexander", LastName = "Gadiel", Gender = Gender.M, CityId = 1, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobId = 1, IsActive = true, ShiftId = 1 }
-
+                new Employee() { EmployeeId = 1, EmployeeCode = "17", FirstName = "Sergio", LastName = "Peralta", Gender = Gender.M, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobPositionId = 1, IsActive = true, ShiftId = 1 },
+                new Employee() { EmployeeId = 2, EmployeeCode = "1320", FirstName = "Jairo", LastName = "Espinza", Gender = Gender.M, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobPositionId = 1, IsActive = true, ShiftId = 1 },
+                new Employee() { EmployeeId = 3, EmployeeCode = "1321", FirstName = "Teresa", LastName = "Espinal", Gender = Gender.F, CityId = 2, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobPositionId = 1, IsActive = true, ShiftId = 1 },
+                new Employee() { EmployeeId = 4, EmployeeCode = "1322", FirstName = "Alexander", LastName = "Gadiel", Gender = Gender.M, CityId = 1, CountryId = 1, DepartmentId = 1, HireDate = DateTime.Parse("2015-12-02"), JobPositionId = 1, IsActive = true, ShiftId = 1 }
                 );
 
             context.AttendanceRecords.AddOrUpdate(x => x.AttendanceRecodId,
@@ -106,6 +106,8 @@ namespace RRHH.Migrations
                new AttendanceRecord() { AttendanceRecodId = 28, EmployeeId = 3, DeviceId = 1, Date = DateTime.Parse("2016-02-23 15:58"), InsertedAt = DateTime.Now },
                new AttendanceRecord() { AttendanceRecodId = 29, EmployeeId = 4, DeviceId = 1, Date = DateTime.Parse("2016-02-23 7:58"), InsertedAt = DateTime.Now }
                );
+            Console.WriteLine("Finish");
+            context.SaveChanges();
         }
     }
 }
